@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The World Summit · 2nd Edition</title>
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- RESET & VARIABLES ---------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --teal: #008B96;
+      --hot-pink: #D91E63;
+      --deep-purple: #4A148C;
+      --light-gray: #F5F5F5;
+      --dark-gray: #2C2C2C;
+      --white: #FFFFFF;
+      --shadow-sm: 0 4px 15px rgba(0,0,0,0.08);
+      --shadow-hover: 0 8px 25px rgba(0,139,150,0.15);
+      --transition: all 0.3s ease-in-out;
+      --border-radius-card: 12px;
+    }
+    body {
+      font-family: 'Inter', 'Open Sans', sans-serif;
+      color: var(--dark-gray);
+      background-color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Poppins', 'Montserrat', sans-serif;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    /* ---------- UTILITIES ---------- */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section-padding {
+      padding: 80px 24px;
+    }
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--teal);
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 18px;
+      color: var(--dark-gray);
+      margin-bottom: 48px;
+      font-weight: 400;
+    }
+    /* ---------- HEADER / NAVIGATION ---------- */
+    .header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: transparent;
+      transition: var(--transition);
+      z-index: 1000;
+    }
+    .header.scrolled {
+      background-color: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+      transition: var(--transition);
+    }
+    .logo span { color: var(--hot-pink); }
+    .header.scrolled .logo { color: var(--dark-gray); }
+    .nav-menu {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-menu a {
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--white);
+      transition: var(--transition);
+      font-size: 16px;
+    }
+    .header.scrolled .nav-menu a { color: var(--dark-gray); }
+    .nav-menu a:hover {
+      color: var(--hot-pink);
+      border-bottom: 2px solid var(--hot-pink);
+    }
+    /* mobile */
+    .hamburger { display: none; font-size: 28px; color: white; cursor: pointer; }
+    .header.scrolled .hamburger { color: var(--dark-gray); }
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed;
+        top: 80px; left: -100%;
+        width: 80%; height: 100vh;
+        background: var(--white);
+        flex-direction: column;
+        padding: 40px 24px;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        transition: left 0.3s ease;
+        z-index: 999;
+      }
+      .nav-menu.active { left: 0; }
+      .nav-menu a { color: var(--dark-gray) !important; }
+      .hamburger { display: block; }
+    }
+    /* ---------- HERO ---------- */
+    .hero {
+      height: 100vh;
+      width: 100%;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop') center/cover fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      margin-top: -80px; /* header overlay */
+    }
+    .hero-content {
+      max-width: 900px;
+      padding: 0 20px;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 8vw, 72px);
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 20px;
+      color: #f0f0f0;
+      margin-bottom: 40px;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--hot-pink);
+      color: white;
+      padding: 16px 48px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 18px;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: var(--teal);
+      transform: scale(1.02);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      color: white;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce { 0%,20%,50%,80%,100%{transform:translateX(-50%) translateY(0);} 40%{transform:translateX(-50%) translateY(-20px);} 60%{transform:translateX(-50%) translateY(-10px);} }
+    /* ---------- ABOUT ---------- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .stats {
+      display: flex;
+      gap: 24px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .stat-card {
+      flex: 1 1 120px;
+      background: var(--white);
+      border-top: 4px solid var(--teal);
+      padding: 24px 12px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-card h3 { font-size: 28px; color: var(--deep-purple); }
+    .stat-card p { font-size: 14px; color: var(--dark-gray); }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .gallery img {
+      width: 100%; height: 240px; object-fit: cover;
+      border: 2px solid var(--teal);
+      border-radius: 12px;
+      transition: var(--transition);
+    }
+    .gallery img:hover { transform: scale(1.05); box-shadow: var(--shadow-hover); }
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; } }
+    /* ---------- SPONSORS CAROUSEL ---------- */
+    .sponsors {
+      background: var(--light-gray);
+    }
+    .carousel-container {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+      gap: 24px;
+      padding: 20px 0;
+    }
+    .sponsor-card {
+      min-width: calc(20% - 20px); /* 5 items */
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border: 1px solid #ddd;
+      transition: var(--transition);
+      height: 140px;
+    }
+    .sponsor-card img {
+      max-width: 80%;
+      max-height: 80px;
+      filter: grayscale(1);
+      transition: var(--transition);
+    }
+    .sponsor-card:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 0 2px var(--teal);
+    }
+    .sponsor-card:hover img { filter: grayscale(0); }
+    .carousel-btn {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: var(--teal);
+      color: white;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      border: none;
+      z-index: 10;
+      transition: var(--transition);
+    }
+    .carousel-btn:hover { background: var(--hot-pink); }
+    .prev { left: -20px; }
+    .next { right: -20px; }
+    @media (max-width: 1024px) { .sponsor-card { min-width: calc(33.33% - 16px); } }
+    @media (max-width: 768px) { .sponsor-card { min-width: calc(100% - 0px); } }
+    /* ---------- EXHIBITIONS GRID ---------- */
+    .exhibitions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    .exhibit-card {
+      background: var(--white);
+      border-top: 4px solid var(--teal);
+      border-radius: var(--border-radius-card);
+      padding: 24px 20px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      text-align: center;
+    }
+    .exhibit-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+      background: #f0f8f9;
+    }
+    .exhibit-card img { width: 80px; height: 60px; object-fit: contain; margin-bottom: 16px; }
+    .exhibit-card h3 { font-size: 20px; color: var(--teal); margin-bottom: 8px; }
+    .exhibit-card p { font-size: 14px; color: #555; margin-bottom: 16px; }
+    .exhibit-card a { color: var(--hot-pink); text-decoration: underline; font-weight: 600; }
+    /* ---------- CONFERENCES & SPEAKERS ---------- */
+    .conference-list { display: flex; flex-direction: column; gap: 60px; }
+    .conference-item {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .conference-item:nth-child(even) { flex-direction: row-reverse; }
+    .conf-img {
+      flex: 1 1 45%;
+    }
+    .conf-img img {
+      width: 100%; height: 320px; object-fit: cover;
+      border-radius: 12px;
+      border: 3px solid var(--hot-pink);
+      transition: var(--transition);
+    }
+    .conf-img img:hover { transform: scale(1.03); }
+    .conf-content {
+      flex: 1 1 55%;
+      padding: 24px 32px;
+    }
+    .badge {
+      background: var(--teal);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 40px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+    .conf-content h3 { font-size: 28px; margin-bottom: 8px; }
+    .speaker-name { font-size: 20px; color: var(--deep-purple); font-weight: 600; }
+    .topic { font-size: 18px; color: var(--hot-pink); font-style: italic; margin: 8px 0 12px; }
+    .location { font-size: 14px; color: #666; margin-top: 12px; }
+    @media (max-width: 768px) {
+      .conference-item, .conference-item:nth-child(even) { flex-direction: column; gap: 16px; }
+      .conf-content { padding: 16px; }
+    }
+    /* ---------- REGISTRATION (HERO STYLE) ---------- */
+    .registration {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=2012&auto=format&fit=crop') center/cover fixed;
+      color: white;
+      text-align: center;
+    }
+    .registration h2 { font-size: 48px; margin-bottom: 16px; color: white; }
+    .registration p { font-size: 20px; margin-bottom: 32px; color: #ddd; }
+    .register-form {
+      max-width: 500px;
+      margin: 32px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .register-form input {
+      padding: 16px 24px;
+      border-radius: 40px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      outline: none;
+      transition: var(--transition);
+    }
+    .register-form input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,139,150,0.3); }
+    .small-note { font-size: 14px; color: #ccc; margin-top: 24px; }
+    .small-note a { color: var(--hot-pink); text-decoration: none; }
+    /* ---------- FOOTER ---------- */
+    .footer {
+      background: var(--dark-gray);
+      color: #ccc;
+      padding: 60px 40px 40px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+      gap: 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .footer-col h4 { color: white; margin-bottom: 20px; font-size: 18px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li, .footer-col p { margin-bottom: 12px; font-size: 14px; }
+    .footer-col a { color: #ccc; text-decoration: none; transition: var(--transition); }
+    .footer-col a:hover { color: var(--hot-pink); }
+    .social-icons { display: flex; gap: 12px; flex-wrap: wrap; }
+    .social-icons a {
+      display: inline-flex; width: 40px; height: 40px; background: var(--teal); border-radius: 50%;
+      align-items: center; justify-content: center; color: white; font-size: 20px;
+      transition: var(--transition);
+    }
+    .social-icons a:hover { background: var(--hot-pink); transform: scale(1.1); }
+    .newsletter input { width: 100%; padding: 12px; border-radius: 30px; border: none; margin-bottom: 12px; }
+    .newsletter button { width: 100%; padding: 12px; background: var(--hot-pink); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: var(--transition); }
+    .newsletter button:hover { background: var(--teal); }
+    .footer-bottom {
+      border-top: 1px solid #444;
+      margin-top: 40px;
+      padding-top: 20px;
+      text-align: center;
+      font-size: 12px;
+    }
+    /* ---------- SCROLL ANIMATIONS ---------- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .stagger .exhibit-card:nth-child(1) { transition-delay: 0.1s; }
+    .stagger .exhibit-card:nth-child(2) { transition-delay: 0.2s; }
+    .stagger .exhibit-card:nth-child(3) { transition-delay: 0.3s; }
+    .stagger .exhibit-card:nth-child(4) { transition-delay: 0.4s; }
+    /* ---------- RESPONSIVE FIXES ---------- */
+    @media (max-width: 1024px) { .section-padding { padding: 60px 24px; } }
+    @media (max-width: 768px) { .carousel-btn { display: none; } /* fallback to scroll */ }
+  </style>
+</head>
+<body>
+  <!-- Sticky Header -->
+  <header class="header" id="header">
+    <a href="#" class="logo">WORLD<span>SUMMIT</span></a>
+    <nav>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#exhibitions">Exhibitions</a></li>
+        <li><a href="#conferences">Conferences</a></li>
+        <li><a href="#register">Registration</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content fade-in">
+      <h1>The World Summit 2nd Edition<br>— Where Cultures Meet</h1>
+      <p>Global dialogue · Innovation · Cultural exchange · 12–14 October 2026 · Berlin</p>
+      <a href="#register" class="btn">Discover More</a>
+    </div>
+    <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
+  </section>
+
+  <!-- About Us -->
+  <section id="about" class="section-padding">
+    <div class="container">
+      <h2 class="section-title fade-in">About The World Summit</h2>
+      <div class="about-grid">
+        <div class="fade-in">
+          <p style="font-size: 18px; margin-bottom: 24px;">The premier gathering for visionaries, artists, and changemakers. After a successful first edition, we return to foster deeper international cooperation through art, tech, and dialogue.</p>
+          <div class="stats">
+            <div class="stat-card"><h3>+300</h3><p>Participants</p></div>
+            <div class="stat-card"><h3>13</h3><p>Exhibitors</p></div>
+            <div class="stat-card"><h3>7</h3><p>Speakers</p></div>
+          </div>
+        </div>
+        <div class="gallery fade-in">
+          <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=400&h=300&fit=crop" alt="summit 1st edition">
+          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=300&fit=crop" alt="panel discussion">
+          <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=400&h=300&fit=crop" alt="cultural performance">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sponsors Carousel -->
+  <section class="sponsors section-padding">
+    <div class="container">
+      <h2 class="section-title fade-in">Our Partners</h2>
+      <p class="section-sub fade-in">Trusted organizations supporting international exchange</p>
+      <div class="carousel-container">
+        <button class="carousel-btn prev" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+        <div class="carousel-track" id="carouselTrack">
+          <!-- 10 sponsor placeholders (2 slides) -->
+          <div class="sponsor-card"><img src="https://via.placeholder.com/200x80/008B96/white?text=Global+Co" alt="sponsor"></div>
+          <div class="sponsor-card"><img src="https://via.placeholder.com/200x80/D91E63/white?text=Culture+Now" alt="sponsor"></div>
+          <div class="sponsor-card"><img src="https://via.placeholder.com/200x80/4A148C/white?text=Euro+Arts" alt="sponsor"></div>
+          <div class="sponsor-card"><img src="https://via.placeholder.com/200x80/008B96/white?text=Asia+Link" alt="sponsor"></div>
+          <div class="sponsor-card"><img src="https://via.placeholder.com/200x80/D91E63/white?text=Africa+Rise" alt="sponsor"></div>
+          <div class="sponsor-card"><img src="https://via.placeholder.com/200x80/4A148C/white?text=Americas" alt="sponsor"></div>
+          <div class="sponsor-card"><img src="https://via.placeholder.com/200x80/008B96/white?text=UN+Foundation" alt="sponsor"></div>
+          <div class="sponsor-card"><img src="https://via.placeholder.com/200x80/D91E63/white?text=Open+Society" alt="sponsor"></div>
+          <div class="sponsor-card"><img src="https://via.placeholder.com/200x80/4A148C/white?text=Tech+Bridge" alt="sponsor"></div>
+          <div class="sponsor-card"><img src="https://via.placeholder.com/200x80/008B96/white?text=Creative+EU" alt="sponsor"></div>
+        </div>
+        <button class="carousel-btn next" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Exhibitions -->
+  <section id="exhibitions" class="section-padding">
+    <div class="container">
+      <h2 class="section-title fade-in">Featured Exhibitors</h2>
+      <div class="exhibitions-grid stagger">
+        <div class="exhibit-card fade-in"><img src="https://via.placeholder.com/80x60/D91E63/white?text=ART+LAB" alt="logo"><h3>Art Lab Berlin</h3><p>Interactive installations & VR experiences</p><a href="#">Learn More</a></div>
+        <div class="exhibit-card fade-in"><img src="https://via.placeholder.com/80x60/008B96/white?text=CRAFT" alt="logo"><h3>Global Crafts</h3><p>Handicrafts from 20+ countries</p><a href="#">Learn More</a></div>
+        <div class="exhibit-card fade-in"><img src="https://via.placeholder.com/80x60/4A148C/white?text=FUTURE" alt="logo"><h3>Future Fiction</h3><p>Speculative design & cultural storytelling</p><a href="#">Learn More</a></div>
+        <div class="exhibit-card fade-in"><img src="https://via.placeholder.com/80x60/D91E63/white?text=SOUND" alt="logo"><h3>Sound Diplomacy</h3><p>Global music archives</p><a href="#">Learn More</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conferences & Speakers -->
+  <section id="conferences" class="section-padding" style="background: #f9f9f9;">
+    <div class="container">
+      <h2 class="section-title fade-in">Conferences & Speakers</h2>
+      <div class="conference-list">
+        <div class="conference-item fade-in">
+          <div class="conf-img"><img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400&h=280&fit=crop" alt="speaker"></div>
+          <div class="conf-content"><span class="badge">12 OCT · 10:00</span><h3>Cultural Diplomacy in Digital Age</h3><div class="speaker-name">Dr. Amina Diallo</div><div class="topic">Keynote: Bridging continents</div><p>How technology reshapes heritage sharing. Followed by panel with 5 global leaders.</p><div class="location"><i class="fas fa-map-pin"></i> Main Hall · Berlin Congress</div></div>
+        </div>
+        <div class="conference-item fade-in">
+          <div class="conf-img"><img src="https://images.unsplash.com/photo-1567529684892-09290a1b2d05?w=400&h=280&fit=crop" alt="speaker"></div>
+          <div class="conf-content"><span class="badge">13 OCT · 14:30</span><h3>Indigenous Futures & Innovation</h3><div class="speaker-name">Elena K. & Marco R.</div><div class="topic">Co-creating with communities</div><p>Case studies from Amazon to Arctic. Indigenous knowledge meets tech.</p><div class="location"><i class="fas fa-map-pin"></i> Summit Studio B</div></div>
+        </div>
+        <div class="conference-item fade-in">
+          <div class="conf-img"><img src="https://images.unsplash.com/photo-1573497491765-dccce02c29df?w=400&h=280&fit=crop" alt="speaker"></div>
+          <div class="conf-content"><span class="badge">14 OCT · 09:00</span><h3>Creative Economies: A Global South Perspective</h3><div class="speaker-name">Dr. Chen Wei & Maria Santos</div><div class="topic">New markets, old wisdom</div><p>How cultural industries drive sustainable growth.</p><div class="location"><i class="fas fa-map-pin"></i> Hall 2</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Registration (Hero style) -->
+  <section id="register" class="registration section-padding">
+    <div class="container">
+      <h2 class="fade-in">Ready to Join?</h2>
+      <p class="fade-in">Secure your spot at The World Summit 2nd Edition — early bird until 31 July.</p>
+      <a href="#" class="btn fade-in" style="margin-bottom: 30px;">Register Now</a>
+      <div class="register-form fade-in">
+        <input type="email" placeholder="Your email for updates">
+        <button class="btn" style="background: var(--deep-purple);">Notify me</button>
+      </div>
+      <p class="small-note fade-in">Questions? <a href="mailto:info@worldsummit.com">info@worldsummit.com</a></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="footer-grid">
+      <div class="footer-col"><h4>WORLD SUMMIT</h4><p style="color:#aaa;">International cultural exchange · 2nd Edition Berlin 2026</p><p>© 2026 All rights reserved.</p></div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#exhibitions">Exhibitions</a></li><li><a href="#conferences">Conferences</a></li><li><a href="#register">Registration</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><p><i class="fas fa-envelope"></i> hello@worldsummit.com</p><p><i class="fas fa-phone-alt"></i> +49 30 1234 5678</p><p><i class="fas fa-map-marker-alt"></i> Berlin, Germany</p></div>
+      <div class="footer-col"><h4>Follow Us</h4><div class="social-icons"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-x-twitter"></i></a></div></div>
+      <div class="footer-col newsletter"><h4>Stay Updated</h4><input type="email" placeholder="Your email"><button>Subscribe</button></div>
+    </div>
+    <div class="footer-bottom">© 2026 The World Summit. All rights reserved. Design with cultural respect.</div>
+  </footer>
+
+  <script>
+    // Sticky header
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    });
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => navMenu.classList.remove('active'));
+    });
+
+    // Carousel logic
+    const track = document.getElementById('carouselTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const cards = document.querySelectorAll('.sponsor-card');
+    let cardWidth = cards[0]?.offsetWidth + 24 || 224; // width+gap
+    let currentIndex = 0;
+    const maxIndex = cards.length - 5; // show 5 at a time on desktop
+
+    function updateCarousel() {
+      const viewport = document.querySelector('.carousel-container').offsetWidth;
+      let visibleCount = 5;
+      if (viewport < 1024) visibleCount = 3;
+      if (viewport < 768) visibleCount = 1;
+      const newMax = cards.length - visibleCount;
+      if (currentIndex > newMax) currentIndex = newMax;
+      if (currentIndex < 0) currentIndex = 0;
+      const offset = -currentIndex * (cards[0]?.offsetWidth + 24);
+      track.style.transform = `translateX(${offset}px)`;
+    }
+
+    prevBtn.addEventListener('click', () => { currentIndex--; updateCarousel(); });
+    nextBtn.addEventListener('click', () => { currentIndex++; updateCarousel(); });
+    window.addEventListener('resize', updateCarousel);
+    setTimeout(updateCarousel, 200); // initial
+
+    // Auto-scroll optional
+    setInterval(() => {
+      if (currentIndex < cards.length - 5) currentIndex++; else currentIndex = 0;
+      updateCarousel();
+    }, 8000);
+
+    // Fade-in on scroll (Intersection Observer)
+    const faders = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
+    faders.forEach(el => observer.observe(el));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
